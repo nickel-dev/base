@@ -15,7 +15,7 @@ intern File file_open(const char* path, File_Mode modes);
 intern inline void file_close(File f);
 intern u64 file_get_size(File f);
 intern inline bool file_read(File f, char* dest, u64 bytes_to_read, u64 actually_read);
-intern inline bool file_read_to_string(File f, string* dest);
+intern string file_read_to_string(Arena arena, const char* path);
 
 #if OS_WINDOWS
 
@@ -84,18 +84,16 @@ file_read(File f, char* dest, u64 bytes_to_read, u64 actually_read) {
     return (bool)ReadFile(f, dest, (DWORD)bytes_to_read, (LPDWORD)actually_read, 0);
 }
 
-intern inline bool
-file_read_to_string(File f, string* dest) {
+intern string
+file_read_to_string(Arena arena, const char* path) {
+    File f = file_open(path, FILE_MODE_READ);
     u64 bytes_to_read = file_get_size(f);
-
-    dest->size = bytes_to_read + 1;
-    dest->data = (char*)malloc(sizeof(u8) * dest->size);
-    dest->data[bytes_to_read] = '\0';
+    string dest = string_alloc(arena, bytes_to_read + 1);
 
     u64 actually_read = 0;
-    if (!file_read(f, dest->data, dest->size, actually_read))
-        return false;
-    return true;
+    assert(file_read(f, dest.data, dest.size, actually_read), "Failed to read file to string! path: '%s'", path);
+    file_close(f);
+    return dest;
 }
 
 #else

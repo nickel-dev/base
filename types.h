@@ -27,7 +27,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 
 typedef struct string {
-    u8* data;
+    char* data;
     u64 size;
 } string;
 

@@ -12,7 +12,7 @@
 #define GIGABYTES(n) (MEGABYTES(n) * 1024LL)
 #define TERABYTES(n) (GIGABYTES(n) * 1024LL)
 
-#define assert(c, ...) do { if (!c) {\
+#define assert(cond, ...) do { if (!cond) {\
     printf("Assertion failed! file: '%s', line: %i.\nCondition: %s\nMessage: ", __FILE__, __LINE__, MACRO_STR(cond));\
     printf(__VA_ARGS__); BREAK\
 }} while (0)

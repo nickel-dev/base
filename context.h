@@ -31,4 +31,9 @@
 #error OS currently not supported
 #endif
 
+void* malloc(size_t size);
+void free(void* p);
+int printf(const char* fmt, ...);
+void* memcpy(void* dest, const void* src, size_t count);
+
 #endif // __CONTEXT_H_
