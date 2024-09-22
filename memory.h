@@ -26,7 +26,7 @@ new_arena(u64 size) {
 
 intern void
 arena_free(Arena* a) {
-    assert(HeapFree(GetProcessHeap(), 0, a->start), "Freeing memory block at adress %#010x failed!", a->start);
+    assert(HeapFree(GetProcessHeap(), 0, a->start), "Freeing memory block failed! adress: %p", a->start);
     a->start = NULL;
     a->offset = 0;
     a->size = 0;

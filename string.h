@@ -4,16 +4,17 @@
 global const string null_string = {0, 0};
 
 intern u64
-cstr_length(u8* s) {
-    u8* p = s;
+cstr_length(char* s) {
+    char* p = s;
     while (*s)
         ++s;
     return (u64)(p - s);
 }
 
+// We take in const char* and convert it, due to C automatically putting in coinst char*
 intern inline string
-str(const char* x) {
-    return (string){x, cstr_length(x)};
+str(const char* s) {
+    return (string){(char*)s, cstr_length((char*)s)};
 }
 
 intern string
